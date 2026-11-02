@@ -202,6 +202,7 @@ export default function Home() {
           <h1 className="text-3xl font-bold text-yellow-500">Geopolitics Game</h1>
           <div className="flex items-center gap-4">
             <p>Player: {user.email}</p>
+            
             <button 
               onClick={handleEndTurn} 
               disabled={isProcessingNPCs}
@@ -209,6 +210,20 @@ export default function Home() {
             >
               {isProcessingNPCs ? "NPCs Moving..." : "End Turn (Simulate NPCs)"}
             </button>
+
+            {/* NEW GAME BUTTON */}
+            <button 
+              onClick={async () => {
+                if(confirm("Are you sure you want to start a new game?")) {
+                  if (user) await setDoc(doc(db, "games", user.uid), { countries: initialCountries });
+                  window.location.reload();
+                }
+              }} 
+              className="bg-gray-600 px-4 py-2 rounded hover:bg-gray-500 transition"
+            >
+              New Game
+            </button>
+
             <button onClick={() => signOut(auth)} className="bg-red-600 px-4 py-2 rounded hover:bg-red-700">
               Logout
             </button>
